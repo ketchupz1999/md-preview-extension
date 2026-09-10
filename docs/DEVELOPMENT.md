@@ -42,7 +42,7 @@ npm run test:html
 npm run package
 ```
 
-安装包输出为 `release/md-preview-0.4.0.zip`，打包需要 `zip` 命令。已有 Chromium 时可设置 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`。
+安装包输出为 `release/md-preview-<version>.zip`，打包需要 `zip` 命令。已有 Chromium 时可设置 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`。
 
 `test:browser` 用隔离的真实 FileSystemHandle 测试手动选目录、Markdown 和 Mermaid。`test:files` 创建临时磁盘目录，以真实 `file://` 导航测试自动接管、父目录树、文件链接、自动刷新及 Chrome 文件权限开关。`test:html` 验证 HTML/CSS 预览、布局隔离、脚本与外部资源拦截。测试不读取用户文档；结果保存在 `.test-output/`。
 
@@ -59,9 +59,9 @@ CI 只生成 Actions artifact；正式下载入口由 GitHub Release 提供。�
 ```sh
 npm run check
 node scripts/package.mjs
-git tag -a v0.4.0 -m "MD Preview 0.4.0"
-git push origin v0.4.0
-gh release create v0.4.0 release/md-preview-0.4.0.zip --verify-tag --title "MD Preview 0.4.0" --notes-file docs/CHANGELOG.md
+git tag -a v0.4.1 -m "MD Preview 0.4.1"
+git push origin v0.4.1
+gh release create v0.4.1 release/md-preview-0.4.1.zip --verify-tag --title "MD Preview 0.4.1" --notes-file docs/CHANGELOG.md
 ```
 
 版本升级时同步 package.json、package-lock.json、manifest 和更新记录。Chrome 商店的材料与人工提交步骤见 [发布材料](chrome-store/README.md)。

@@ -2,7 +2,7 @@
 
 ## Single purpose
 
-Provide a read-only preview and navigation workspace for local Markdown documents. The outline, surrounding file explorer, Mermaid rendering, and static previews of related local HTML notes support that local document-reading purpose.
+Provide read-only previews and navigation for local Markdown documents. The outline, local file explorer, Mermaid diagrams, and static previews of related local HTML documents all support this single purpose: reading local documentation.
 
 ## Permission justification
 
@@ -26,11 +26,13 @@ No remotely hosted code is used. Markdown-it, Highlight.js, Mermaid, DOMPurify, 
 
 Local document contents, file names, and directory listings are processed on the device for the user's preview. Nothing is transmitted to the developer or a third party. One recent file/folder reference, document path, scroll position, and reading preferences are stored in browser-local storage. Document bodies are not persistently cached by the extension and Chrome sync storage is not used.
 
-When completing the dashboard, describe this local processing accurately. No collection or transfer of personal information to the developer is intended. The publisher must review the current dashboard's data-category definitions and certifications rather than treating this document as a completed legal declaration.
+The dashboard disclosures must include local processing; no transmission is required for Google's disclosure obligation to apply. The current submission maps document text and images to Website content, saved reading position to User activity, and the most recent local file URL to Web history. This mapping describes local document reading only: the extension does not query Chrome's browsing-history database, track visits to remote websites, or send activity to the developer. It does not sell data, use it for unrelated purposes, or use it for creditworthiness or lending.
+
+These category mappings are our assessment of the current implementation and the form definitions. The publisher must review the current dashboard's definitions and certifications before submitting. See [Google's User Data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq).
 
 ## Test instructions
 
-No login, payment, backend, or credentials are needed to test the extension.
+No login, payment, backend, or credentials are needed to test the extension. The interface is currently in Simplified Chinese: 大纲 means Outline, 文件 means Files, 源码 means Source, and 刷新 means Refresh. Store descriptions and these reviewer instructions are in English.
 
 1. Install the extension, open its Details, and enable **Allow access to file URLs**.
 2. Create a local Markdown file with the sample below. Open it as a file URL in Chrome.

@@ -1,14 +1,14 @@
 # Chrome Web Store release materials
 
-Product: **MD Preview** · Package version: **0.4.0**
+Product: **MD Preview** · Package version: **0.4.1**
 
-The GitHub repository is intentionally private for owner review. This directory prepares the listing; it does not mean that a store item has been submitted or published.
+The GitHub repository is public. The Chrome Web Store item is still a draft; the materials here do not imply review approval or store publication.
 
 ## Upload files
 
 | Purpose | File | Format |
 | --- | --- | --- |
-| Extension package | `release/md-preview-0.4.0.zip` at the repository root | ZIP; manifest at archive root |
+| Extension package | `release/md-preview-0.4.1.zip` at the repository root | ZIP; manifest at archive root |
 | Extension / store icon | `assets/icon-128.png` | 128×128 PNG, 96×96 artwork with transparent padding |
 | Required promotional tile | `assets/promo-small-440x280.png` | 440×280 RGB PNG |
 | Optional marquee | `assets/promo-marquee-1400x560.png` | 1400×560 RGB PNG |
@@ -23,20 +23,30 @@ All screenshots come from the actual extension using the repository's demonstrat
 ## Listing information
 
 - Name: **MD Preview**
-- Primary listing language: **简体中文** (the current application interface language)
+- Description and review copy: **English**. The listing states that the extension interface is currently in Simplified Chinese.
+- Dashboard Language: **Chinese (China)**, reflecting the current interface. Writing English descriptions does not add an English interface.
 - Category: **Tools / 工具**, choosing the corresponding current dashboard category
-- Short description: **纯本地 Markdown 自动预览，支持大纲、文件树、Mermaid 图表和 HTML 静态预览。**
-- Detailed descriptions: [简体中文](listing.zh-CN.md) · [English](listing.en.md)
+- Short description (from package): **Preview local Markdown with an outline, file explorer, Mermaid diagrams and static HTML previews. All processing stays on-device.**
+- Detailed description: copy [English](listing.en.md) into **Store listing → Description**. A [Chinese translation](listing.zh-CN.md) is also available.
 - Single-purpose, permission, and reviewer notes: [Review notes](review-notes.md)
 - Privacy policy: [`docs/PRIVACY.md`](../PRIVACY.md)
 
-After the owner makes the repository public, these URLs can be used:
+Public URLs for the dashboard:
 
 - Website: https://github.com/ketchupz1999/md-preview-extension
 - Support: https://github.com/ketchupz1999/md-preview-extension/issues
 - Privacy: https://github.com/ketchupz1999/md-preview-extension/blob/main/docs/PRIVACY.md
 
-The private repository's URLs are not publicly accessible and must not be treated as live public support/privacy pages before that visibility change.
+Keep **Official URL** set to None unless site ownership has been verified. The homepage, support, and privacy fields can use the URLs above.
+
+## Apply the English metadata update
+
+1. In the existing item, open **Package → Upload new package** and upload `md-preview-0.4.1.zip`. Its English manifest description replaces the Chinese **Summary from package**. Keep the same store item and extension ID.
+2. Replace **Store listing → Description** with the English listing text. Category remains **Tools**; the interface language remains **Chinese (China)**.
+3. Replace **Privacy → Single purpose description** with the Single purpose paragraph in [review notes](review-notes.md). Keep remote code set to **No**; its disabled justification field stays empty.
+4. Complete data disclosures and certifications according to the Data handling section of the review notes, and set the public privacy policy URL.
+5. Use the **Test instructions** section of the review notes if the dashboard asks for reviewer instructions. No credentials are needed.
+6. Save the draft. Resolve any remaining account requirements before submitting for review.
 
 ## Account and submission steps
 

@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "MD Preview",
-  "version": "0.4.0",
-  "description": "纯本地 Markdown 自动预览，支持大纲、文件树、Mermaid 图表和 HTML 静态预览。",
+  "version": "0.4.1",
+  "description": "Preview local Markdown with an outline, file explorer, Mermaid diagrams and static HTML previews. All processing stays on-device.",
   "minimum_chrome_version": "121",
   "action": {
-    "default_title": "打开 MD Preview",
+    "default_title": "Open MD Preview",
     "default_icon": {
       "16": "icons/16.png",
       "32": "icons/32.png"
