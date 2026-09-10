@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "MD Preview",
+  "version": "0.4.0",
+  "description": "纯本地 Markdown 自动预览，支持大纲、文件树、Mermaid 图表和 HTML 静态预览。",
+  "minimum_chrome_version": "121",
+  "action": {
+    "default_title": "打开 MD Preview",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "host_permissions": [
+    "file:///*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "file:///*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "reader.html"
+      ],
+      "matches": [
+        "file:///*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob:; font-src 'self'; connect-src file:; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; worker-src 'none'; base-uri 'none'; form-action 'none';"
+  }
+}

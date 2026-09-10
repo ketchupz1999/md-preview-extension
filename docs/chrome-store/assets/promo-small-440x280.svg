@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="280" viewBox="0 0 440 280"><rect width="440" height="280" fill="#485da8"/>
+<circle cx="74" cy="109" r="138" fill="#556cbc"/>
+<svg x="5" y="46" width="178" height="178" viewBox="0 0 128 128">
+
+  <rect x="16" y="16" width="96" height="96" rx="23" fill="#596dc0"/>
+  <path d="M38 79V47h9l17 20 17-20h9v32" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 91h40" fill="none" stroke="#cbd5ff" stroke-width="4" stroke-linecap="round"/>
+
+</svg><g transform="translate(220 32) scale(1.02)">
+<rect x="12" y="-10" width="178" height="194" rx="13" fill="#9baeea" opacity=".4"/>
+<rect width="178" height="194" rx="13" fill="#fff"/>
+<path d="M24 30h78M24 45h124M24 56h99" stroke="#d9dfef" stroke-width="5" stroke-linecap="round"/>
+<rect x="24" y="80" width="48" height="30" rx="6" fill="#e9edf9" stroke="#8b9ddb"/>
+<rect x="109" y="80" width="45" height="30" rx="6" fill="#e9edf9" stroke="#8b9ddb"/>
+<path d="M73 95h30m-6-4 6 4-6 4" fill="none" stroke="#6c80c4" stroke-width="2"/>
+<path d="M24 136h124M24 148h102M24 160h112" stroke="#d9dfef" stroke-width="4" stroke-linecap="round"/>
+</g>
+<text x="29" y="250" font-family="Avenir Next, DejaVu Sans, sans-serif" font-size="24" font-weight="600" fill="#fff">MD Preview</text></svg>

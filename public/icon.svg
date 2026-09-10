@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>MD Preview</title>
+  <rect x="16" y="16" width="96" height="96" rx="23" fill="#596dc0"/>
+  <path d="M38 79V47h9l17 20 17-20h9v32" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 91h40" fill="none" stroke="#cbd5ff" stroke-width="4" stroke-linecap="round"/>
+</svg>

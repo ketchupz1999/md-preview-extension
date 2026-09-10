@@ -1,0 +1,42 @@
+{
+  "name": "md-preview-extension",
+  "version": "0.4.0",
+  "description": "Offline Markdown reader with automatic local file preview, outline, file tree and Mermaid diagrams.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node tests/browser.mjs",
+    "test:files": "node tests/local-files.mjs",
+    "check": "npm test && npm run build",
+    "package": "npm run check && node scripts/package.mjs",
+    "test:html": "node tests/html.mjs",
+    "assets:brand": "node scripts/brand-assets.mjs",
+    "assets:screenshots": "node scripts/store-screenshots.mjs"
+  },
+  "dependencies": {
+    "dompurify": "3.4.15",
+    "highlight.js": "11.12.0",
+    "markdown-it": "15.0.1",
+    "mermaid": "11.17.2",
+    "preact": "10.29.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@resvg/resvg-js": "2.6.2",
+    "esbuild": "0.28.2"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ketchupz1999/md-preview-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ketchupz1999/md-preview-extension/issues"
+  },
+  "homepage": "https://github.com/ketchupz1999/md-preview-extension#readme"
+}

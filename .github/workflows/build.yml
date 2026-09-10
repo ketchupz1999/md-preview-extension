@@ -1,0 +1,23 @@
+name: Build and test
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: node scripts/package.mjs
+      - uses: actions/upload-artifact@v7.0.1
+        with:
+          name: md-preview-extension
+          path: release/md-preview-*.zip
+          retention-days: 30
