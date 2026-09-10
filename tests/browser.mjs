@@ -29,7 +29,86 @@ try {
   await expect(page.getByRole('searchbox', {name:'搜索文件名或路径'})).toBeHidden();
   assert.ok(await page.locator('.sidebar').evaluate(e => e.getBoundingClientRect().width) <= 240);
 
-  const examples = await Promise.all(['README.md', 'notes/离线与隐私.md', 'notes/验证清单.md', 'notes/图表与时序.md'].map(async (name) => ({ name, source: await readFile(`examples/${name}`, 'utf8') })));
+  // Regression: long API names must not shrink into arbitrary fragments beside JSON and CJK prose.
+  const tableSource = [
+    '# Table layout', '',
+    '| 接口 | 请求体 | 说明 |', '| --- | --- | --- |',
+    '| D/ListUnreadMessages | `{"page":1,"pageSize":20}` | 验证当前账号，返回消息数组。空列表与非空列表分别验证，检查已知的消息编号。 |',
+    '| D/GetDocumentSignature | `{}` | 返回文档签名，检查 `documentId/signature/type/content`。 |',
+    '| D/ListConversations | `{"limit":20,"cursor":""}` | 返回当前用户的会话，后页使用返回的 nextCursor。 |',
+    '| D/ListMessages | `{"conversationId":"${conversationId}","limit":20,"cursor":""}` | 中文说明可以自然换行。 |', '',
+    '## Wide table', '',
+    '| ' + Array.from({length: 10}, (_, i) => `Column ${i}`).join(' | ') + ' |',
+    '| ' + Array(10).fill('---').join(' | ') + ' |',
+    '| ' + Array.from({length: 10}, (_, i) => `ReadableIdentifier${i}`).join(' | ') + ' |', '',
+    '## Alignment', '', '| Left | Center | Right |', '| :--- | :---: | ---: |', '| one | two | three |',
+  ].join('\n');
+  await page.locator('input[type="file"]').setInputFiles({ name:'table-layout.md', mimeType:'text/markdown', buffer:Buffer.from(tableSource) });
+  await expect(page.locator('article h1')).toHaveText('Table layout');
+  for (const width of [1440, 1920, 700, 390]) {
+    await page.setViewportSize({width, height:1000});
+    await expect.poll(() => page.locator('.table-scroll').evaluateAll(wrappers => wrappers.every((wrapper, index) => {
+      const overflow = wrapper.scrollWidth > wrapper.clientWidth + 1;
+      return overflow ? wrapper.tabIndex === 0 && wrapper.getAttribute('aria-label') === `表格 ${index + 1}，可横向滚动`
+        : !wrapper.hasAttribute('tabindex') && !wrapper.hasAttribute('role') && !wrapper.hasAttribute('aria-label');
+    }))).toBe(true);
+    const layout = await page.locator('article').evaluate(article => {
+      const tables = article.querySelectorAll('table');
+      const lines = [...tables[0].tBodies[0].rows].map(row => {
+        const range = document.createRange(); range.selectNodeContents(row.cells[0]);
+        return new Set([...range.getClientRects()].map(rect => Math.round(rect.top))).size;
+      });
+      const pane = article.closest('.reading-pane');
+      const wrapper = tables[1].parentElement;
+      return {lines, paneWidth:pane.clientWidth, paneScroll:pane.scrollWidth, tableWidth:wrapper.clientWidth, tableScroll:wrapper.scrollWidth,
+        alignment:[...tables[2].tBodies[0].rows[0].cells].map(cell => getComputedStyle(cell).textAlign)};
+    });
+    assert.ok(layout.lines.every(lines => lines === 1), `API names wrap at ${width}px: ${layout.lines}`);
+    assert.ok(layout.paneScroll <= layout.paneWidth + 1, `table expands the reading pane at ${width}px: ${JSON.stringify(layout)}`);
+    if (width <= 1440) assert.ok(layout.tableScroll > layout.tableWidth, 'wide tables need their own horizontal scroll');
+    assert.deepEqual(layout.alignment, ['left', 'center', 'right']);
+    if (width === 1440 || width === 390) await page.screenshot({path:`.test-output/table-${width}.png`});
+  }
+  const wideTable = page.locator('.table-scroll').nth(1);
+  await wideTable.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(() => wideTable.evaluate(wrapper => wrapper.scrollLeft)).toBeGreaterThan(0);
+  await page.setViewportSize({width:1440,height:1000});
+  await page.getByRole('button', {name:'查看源码',exact:true}).click();
+  assert.equal(await page.locator('.source-code').textContent(), tableSource);
+  await page.getByRole('button', {name:'显示阅读视图',exact:true}).click();
+  await expect(page.locator('article table')).toHaveCount(3);
+  check('tables preserve API names, Markdown alignment and source; wide tables scroll without widening the page at four viewport sizes');
+
+  await page.locator('.reading-pane').evaluate(pane => { pane.scrollTop = 0; });
+  for (const factor of [1, 0.8, 0.5, 0.25]) {
+    // Change the actual tab zoom in this isolated test browser, not CSS zoom or a wider screenshot.
+    const zoom = await page.evaluate(async factor => {
+      const tab = await chrome.tabs.getCurrent();
+      await chrome.tabs.setZoom(tab.id, factor);
+      return chrome.tabs.getZoom(tab.id);
+    }, factor);
+    assert.ok(Math.abs(zoom - factor) < 0.01);
+    await expect.poll(() => page.evaluate(() => {
+      const pane = document.querySelector('.reading-pane');
+      const container = document.querySelector('.document-container');
+      return Math.abs(container.getBoundingClientRect().width - pane.clientWidth);
+    })).toBeLessThan(2);
+    const layout = await page.locator('article').evaluate(article => {
+      const pane = article.closest('.reading-pane');
+      return {fraction:article.getBoundingClientRect().width / pane.clientWidth, width:pane.clientWidth, scroll:pane.scrollWidth, fontSize:getComputedStyle(article).fontSize,
+        headingGap:article.querySelector('h1').getBoundingClientRect().top - pane.getBoundingClientRect().top};
+    });
+    assert.ok(layout.fraction > 0.88, `content becomes a narrow centered column at zoom ${factor}: ${JSON.stringify(layout)}`);
+    assert.ok(layout.scroll <= layout.width + 1);
+    assert.equal(layout.fontSize, '18px');
+    assert.ok(layout.headingGap >= 0 && layout.headingGap <= 52, `heading has excessive top space at zoom ${factor}: ${layout.headingGap}`);
+    await page.screenshot({path:`.test-output/zoom-${factor * 100}.png`});
+  }
+  await page.evaluate(async () => chrome.tabs.setZoom((await chrome.tabs.getCurrent()).id, 1));
+  check('content fills the reader with a compact header at actual Chrome tab zoom 100%, 80%, 50% and 25%');
+
+  const examples = await Promise.all(['README.md', 'notes/离线与隐私.md', 'notes/图表与时序.md'].map(async (name) => ({ name, source: await readFile(`examples/${name}`, 'utf8') })));
   examples[0].source += '\n\n[本地图片测试](notes/本地图片.md#API%20Usage)';
   examples.push({ name: 'notes/本地图片.md', source: '# 本地图片\n\n[跳到 API 说明](#API%20Usage)\n\n![高图片](../images/local.png)\n\n## API Usage\n\n图片解码后再定位。\n\n' + '阅读内容。\n\n'.repeat(30) });
   // 仅用测试脚本替代系统选择器；其余读目录、文件、持久化均使用真实 FileSystemHandle。
@@ -54,7 +133,7 @@ try {
     };
   }, examples);
   await page.getByRole('button', { name: '打开文件夹', exact: true }).click();
-  await expect(page.locator('article h1')).toHaveText('本地文档阅读器 · 设计笔记');
+  await expect(page.locator('article h1')).toHaveText('Markdown 示例');
   await page.getByRole('tab', {name:'文件',exact:true}).click();
   await expect(page.getByRole('button', { name: 'README.md', exact: true })).toHaveAttribute('aria-current', 'page');
   check('folder selection, real handle enumeration and default README');
@@ -70,8 +149,8 @@ try {
   assert.equal(await page.locator('article img, article script, article iframe').count(), 0);
   check('lazy subdirectory browsing and remote image / HTML blocking');
 
-  await page.getByRole('link', { name: '返回设计笔记' }).click();
-  await expect(page.locator('article h1')).toHaveText('本地文档阅读器 · 设计笔记');
+  await page.getByRole('link', { name: '返回示例首页' }).click();
+  await expect(page.locator('article h1')).toHaveText('Markdown 示例');
   await expect.poll(() => page.locator('.reading-pane').evaluate((element) => element.scrollTop)).toBeGreaterThan(100);
   check('relative Markdown link resolves and jumps to heading');
 

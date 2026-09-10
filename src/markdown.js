@@ -16,6 +16,29 @@ const markdown = new MarkdownIt({
 });
 const escape = (text) => markdown.utils.escapeHtml(text);
 
+// Keep the native table sizing model and scroll the surrounding region.
+markdown.renderer.rules.table_open = () => '<div class="table-scroll"><table>\n';
+markdown.renderer.rules.table_close = () => '</table></div>\n';
+
+/** Only overflowing tables need an extra keyboard stop and a named scroll region. */
+export function observeTableOverflow(container, signal) {
+  if (signal.aborted) return;
+  const tables = [...container.querySelectorAll('.table-scroll')];
+  const update = () => tables.forEach((wrapper, index) => {
+    if (wrapper.scrollWidth > wrapper.clientWidth + 1) {
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', `表格 ${index + 1}，可横向滚动`);
+    } else {
+      for (const attribute of ['tabindex', 'role', 'aria-label']) wrapper.removeAttribute(attribute);
+    }
+  });
+  const observer = new ResizeObserver(update);
+  tables.forEach(wrapper => { observer.observe(wrapper); observer.observe(wrapper.firstElementChild); });
+  signal.addEventListener('abort', () => observer.disconnect(), { once: true });
+  update();
+}
+
 /** 标题和手写标题链接共用相同的锚点规范。 */
 export function headingSlug(text) {
   return text.toLowerCase().trim().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s+/g, '-') || 'section';

@@ -1,49 +1,58 @@
 <p align="center"><img src="docs/brand/banner.png" alt="MD Preview — 纯本地 Markdown 预览" width="100%"></p>
 
-<p align="center"><a href="README.md">English</a> · <a href="https://github.com/ketchupz1999/md-preview-extension/releases/latest">下载安装包</a> · <a href="docs/PRIVACY.md">隐私说明</a></p>
+<p align="center"><a href="README.md">English</a> · <a href="https://github.com/ketchupz1999/md-preview-extension/releases/latest">下载</a> · <a href="docs/PRIVACY.md">隐私说明</a></p>
 
 # MD Preview
 
-在 Chrome / Edge 中直接预览本地 Markdown。打开 `.md` 文件，正文、大纲、文件目录和 Mermaid 图表就绪，所有内容都在本机处理。
+在 Chrome 和 Edge 中预览本地 Markdown，支持大纲、文件树、代码高亮和 Mermaid 图表。所有内容都在本机处理。
 
-Chrome 商店版本正在准备，目前可以通过 Release 安装包加载使用。
+界面使用简体中文，文档可以包含任意语言。
 
-## 主要功能
+![Markdown 阅读界面](docs/chrome-store/assets/01-reading-1280x800.png)
 
-- **打开即读**：开启文件网址权限后，自动接管本地 Markdown。
-- **专注内容**：窄侧栏默认显示大纲，文件树和搜索放在独立 Tab。
-- **看清结构**：支持表格、任务列表、代码高亮、Mermaid 时序图与流程图，图表可放大查看。
-- **纯本地运行**：只读文件，依赖随扩展打包，无账号、无统计上报，阅读器不发起 HTTP/HTTPS 请求。
-- **接上日常工作**：深浅主题、源码视图、字号调整、自动刷新与阅读位置恢复；相关 HTML 笔记支持静态预览，CSS 文件支持色值预览。
+## 功能
 
-![Markdown 阅读界面](docs/screenshots/reader.png)
+- **自动预览**：开启文件网址权限后，用浏览器打开本地 Markdown 即可阅读。
+- **文档导航**：大纲定位、独立文件树与文件名搜索。
+- **清晰排版**：表格、任务列表、代码高亮，以及 Mermaid 时序图、流程图、状态图和 ER 图。
+- **灵活布局**：正文随浏览器缩放铺满阅读区，宽表格在自身区域内滚动，图表可以放大查看。
+- **阅读工具**：深浅主题、源码视图、文字大小、自动刷新和阅读位置恢复。
+- **相关文件**：HTML 静态预览可加载支持的本地样式和图片，CSS 文件支持高亮与色值预览。
 
-<details><summary>查看图表、文件树、深色主题与 HTML 预览</summary>
+<details><summary>文件树、图表、深色主题与 HTML 预览</summary>
 
-![Mermaid 图表](docs/chrome-store/assets/03-mermaid-1280x800.png)
 ![文件树](docs/chrome-store/assets/02-files-1280x800.png)
+![Mermaid 图表](docs/chrome-store/assets/03-mermaid-1280x800.png)
 ![深色主题](docs/chrome-store/assets/04-dark-1280x800.png)
-![HTML 静态预览](docs/screenshots/html-preview.png)
+![HTML 静态预览](docs/chrome-store/assets/05-html-1280x800.png)
 
 </details>
 
 ## 安装
 
-1. 从 [Releases](https://github.com/ketchupz1999/md-preview-extension/releases/latest) 下载 `md-preview-*.zip` 并解压。
-2. 打开 `chrome://extensions`（Edge 为 `edge://extensions`），开启「开发者模式」。
-3. 点击「加载已解压的扩展程序」，选择包含 `manifest.json` 的解压目录。
+1. 从 [Releases](https://github.com/ketchupz1999/md-preview-extension/releases/latest) 下载 ZIP，解压到固定目录。
+2. 打开 `chrome://extensions` 或 `edge://extensions`，开启「开发者模式」。
+3. 点击「加载已解压的扩展程序」，选择包含 `manifest.json` 的目录。
 4. 进入扩展「详情」，开启 **允许访问文件网址**。
-5. 用浏览器打开本地 Markdown，或刷新已经打开的 `.md` 页面。
+5. 用浏览器打开本地 `.md` 文件，或点击扩展图标选择文件或文件夹。
 
-也可以点击扩展图标，使用左上角的小图标打开文件或文件夹。更新时替换原扩展目录中的文件，再点击「重新加载」，可保持原有的扩展位置。
+更新手动安装的版本时，替换同一目录中的文件，再到扩展页点击「重新加载」。[`examples/`](examples) 提供可以直接打开的示例文档。
 
-[`examples/`](examples) 提供可直接打开的示例文档。`⌘ / Ctrl + K` 搜索文件，`⌘ / Ctrl + B` 收起侧栏，`Esc` 关闭图表预览。
+| 快捷键 | 操作 |
+| --- | --- |
+| `⌘ / Ctrl + K` | 搜索文件 |
+| `⌘ / Ctrl + B` | 切换侧栏 |
+| `Esc` | 关闭放大的图表 |
 
-## 本地读取与隐私
+## 隐私
 
-扩展只申请 `file:///*`，不申请网站访问权限。网络连接与远程资源由浏览器内容安全策略阻止。Markdown 中的原始 HTML 作为文字呈现；HTML 文件先清理再放入沙盒，脚本、导航、表单和远程资源被停用。
+文件始终只读。扩展没有后端、账号、广告、分析统计或遥测；渲染库随安装包提供，阅读器阻止远程连接、脚本、图片和字体。
 
-浏览器仅在本地保存最近的文件或目录引用、阅读位置和偏好，不缓存文档正文，也不会将文档发送给开发者。详情见[隐私说明](docs/PRIVACY.md)和[实现边界](docs/DEVELOPMENT.md)。
+浏览器在本地保存最近的文件或目录引用、阅读位置和偏好，不持久缓存或上传文档正文。详情见[隐私说明](docs/PRIVACY.md)。
+
+## 支持范围
+
+面向桌面 Chrome 和 Edge 121 及以上版本。支持 `.md`、`.markdown`、`.mdown`、`.mkd`、`.mdx`。MDX 组件与 Markdown 中的原始 HTML 不执行。HTML 仅支持静态展示；在线文档、交互脚本、独立 SVG 和数学公式不在支持范围内。
 
 ## 开发
 
@@ -59,10 +68,10 @@ npm run test:html
 npm run package
 ```
 
-加载 `dist/` 进行开发，发行包输出到 `release/`。[开发文档](docs/DEVELOPMENT.md)包含结构、限制和验证方式；[商店上架材料](docs/chrome-store/README.md)包含介绍、审核说明和图片。
+开发时加载 `dist/`，安装包输出到 `release/`。详情见[开发文档](docs/DEVELOPMENT.md)和[商店材料](docs/chrome-store/README.md)。
 
-欢迎通过 [Issues](https://github.com/ketchupz1999/md-preview-extension/issues) 反馈问题或提交小范围改进。
+欢迎通过 [Issues](https://github.com/ketchupz1999/md-preview-extension/issues) 反馈问题或提出改进。
 
 ## 许可
 
-[MIT](LICENSE)。扩展包包含第三方依赖的完整许可说明。
+[MIT](LICENSE)。安装包包含第三方依赖的许可说明。

@@ -1,6 +1,6 @@
 {
   "name": "md-preview-extension",
-  "version": "0.4.1",
+  "version": "1.0.0",
   "description": "Offline Markdown reader with automatic local file preview, outline, file tree and Mermaid diagrams.",
   "type": "module",
   "private": true,

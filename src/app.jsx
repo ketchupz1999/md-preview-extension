@@ -5,7 +5,7 @@ import { FileTree, Outline } from './sidebar.jsx';
 import { DiagramDialog } from './diagram-dialog.jsx';
 import { DEMO } from './demo.js';
 import { findFile, isImage, isMarkdown, isText, listDirectory, MAX_IMAGE_BYTES, MAX_TEXT_BYTES, savedSession, searchDirectory } from './files.js';
-import { headingSlug, highlightSource, hydrateImages, parseMarkdown } from './markdown.js';
+import { headingSlug, highlightSource, hydrateImages, observeTableOverflow, parseMarkdown } from './markdown.js';
 import { LocalURLDirectory, LocalURLFile } from './file-url.js';
 import { localFileReference, localFileURL } from './file-url-policy.js';
 import { isHTML, prepareHTML, cssColors } from './html-preview.js';
@@ -262,6 +262,7 @@ function App() {
     if (!article.current || !documentState || documentState.error) return;
     if (documentState.html && !sourceMode) return;
     const controller = new AbortController();
+    if (!sourceMode && documentState.parsed) observeTableOverflow(article.current, controller.signal);
     let imagesReady = !sourceMode && documentState.parsed ? hydrateImages(article.current, documentState.parsed.images, library?.root, controller.signal) : Promise.resolve();
     let imageURL;
     if (documentState.image) {

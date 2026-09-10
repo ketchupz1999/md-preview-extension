@@ -1,21 +1,12 @@
 # Changelog
 
-## 0.4.1 — 2026-09-10
+## 1.0.0
 
-- Uses English for the extension package summary and toolbar tooltip.
-- Updates English store and reviewer copy, including local data handling and the current Simplified Chinese interface language.
-- Updates submission instructions and public project links. Reader functionality and permissions are unchanged.
+Initial release of MD Preview.
 
-## 0.4.0 — 2026-09-10
-
-First branded MD Preview release.
-
-- Introduces the MD Preview name, vector icon, and Chrome-sized assets.
-- Automatically previews local Markdown with a compact outline and a separate file explorer.
-- Supports Markdown tables, task lists, code highlighting, and locally rendered Mermaid diagrams.
-- Includes static HTML previews with local CSS and images, plus CSS color swatches.
-- Provides source view, theme and text-size settings, automatic refresh, and reading-position recovery.
-- Keeps files read-only and blocks remote resources and network connections from the reader.
-- Adds bilingual README files, privacy documentation, reproducible store screenshots, and release materials.
-
-The Chrome Web Store listing is not yet published. Install the ZIP as an unpacked extension and enable file URL access.
+- Automatic local Markdown preview with an outline, file explorer, and filename search.
+- Markdown tables, task lists, syntax highlighting, and offline Mermaid diagrams.
+- Full-width reading, responsive tables, and enlarged diagram previews.
+- Static HTML previews with local styles and images, plus CSS color swatches.
+- Light and dark themes, source view, text-size settings, automatic refresh, and reading-position recovery.
+- Read-only file access, bundled rendering libraries, and local data storage without uploads or telemetry.

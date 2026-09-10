@@ -5,6 +5,7 @@ Features
 • Markdown formatting: headings, tables, task lists, and syntax-highlighted code.
 • Document navigation: an outline, a local file tree, and filename search.
 • Mermaid diagrams: sequence diagrams, flowcharts, and more, with an enlarged view.
+• Flexible layout: content fills the reading area at any browser zoom, with horizontal scrolling for wide tables.
 • Reading tools: light and dark themes, source view, adjustable text size, automatic refresh, and reading-position recovery.
 • Related files: static HTML previews with supported local CSS and images, plus color swatches in CSS files.
 
